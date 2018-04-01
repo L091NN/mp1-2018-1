@@ -32,18 +32,18 @@ public:
 		this->Function = Function;
 	};
 	//1-sin(x) 2-cos(x) 3-exp(x)
-	void Setnumber(int number)
+	void SetNumber(int number)
 	{
 		this->number = number;
 	};
 	//количество членов ряда
 //не более 20 при подсчете(факториал из-за лонг лонг инт подсчитывается до 20!)
-	void Setpoint(double x)
+	void SetPoint(double x)
 	{
 		this->x = x;
 	}
 	//точка х в формуле Маклорена
-	long double Getans()
+	long double GetAns()
 	{
 		ans = 0.0;
 		switch (Function)
@@ -72,7 +72,7 @@ public:
 	{	
 		return number;
 	};
-	void Getelement( int number=0/*номер элемента*/)
+	void GetElement( int number=0/*номер элемента*/)
 	{
 		switch (Function)
 		{
@@ -81,7 +81,7 @@ public:
 		case 3: {ExpTaylor(0, number, number - 1); break; };
 		}
 	};
-	void Getsequence()
+	void GetSequence()
 	{
 		switch (Function)
 		{
@@ -90,7 +90,7 @@ public:
 		case 3: {ExpTaylor(0); break; };
 		}
 	};
-	double Getpoint()
+	double GetPoint()
 	{
 		return x;
 	};
@@ -295,7 +295,7 @@ case2:			if (i < 1)
 				{
 					cout << "Для корректной работы программы количество элементов не должно превышать 20.\n\nВведите количество элементов ряда:\n";
 					cin >> n;
-					if (n > 0)a.Setnumber(n);
+					if (n > 0)a.SetNumber(n);
 					else 
 					{
 							system("cls");
@@ -310,7 +310,7 @@ case2:			if (i < 1)
 				{
 					cout << "\n0.Выйти в меню\n\nВведите количество элементов ряда:\n";
 					cin >> n;
-					if (n > 0)a.Setnumber(n);
+					if (n > 0)a.SetNumber(n);
 					else if (n != 0)
 						{
 							system("cls");
@@ -332,7 +332,7 @@ case3:			if (i < 1)
 					cout << "Введите номер элемента:";
 					cin >> n;
 					if (n > 0) {
-						system("cls"); a.Getelement(n); cout << "\n\nВыйти в меню\n"; char t; cin >> t;
+						system("cls"); a.GetElement(n); cout << "\n\nВыйти в меню\n"; char t; cin >> t;
 					}
 					else
 					{
@@ -349,7 +349,7 @@ case3:			if (i < 1)
 					cout << "\n0.Выйти в меню\n\nВведите номер элемента:\n";
 					cin >> n;
 					if (n > 0) {
-						system("cls"); a.Getelement(n); cout << "\n\nВыйти в меню\n"; char t; cin >> t;
+						system("cls"); a.GetElement(n); cout << "\n\nВыйти в меню\n"; char t; cin >> t;
 							   }
 					else if (n != 0)
 					{
@@ -367,7 +367,7 @@ case3:			if (i < 1)
 	case 4: {
 				system("cls");
 				Menuup1;
-				a.Getsequence();
+				a.GetSequence();
 				char t;
 				cout << "\n\nВыйти в меню\n";
 				cin >> t;
@@ -380,12 +380,13 @@ case5:	system("cls");
 		Menuup3;
 		cout << "Введите значение точки x=";
 		cin >> x;
-		a.Setpoint(x);
+		a.SetPoint(x);
 		system("cls");
 		Menuup3;
-		Answer = a.Getans();
+		Answer = a.GetAns();
 		a.GetFunction();
-		cout << "=" << Answer << endl << endl << "1.задать новый x\n\n Выйти в меню" << endl;
+		cout << "=" << Answer << endl << endl 
+			 << "1.задать новый x\n\n Выйти в меню" << endl;
 		cin >> t;
 		if (t == m) goto case5;
 		else goto menu;
@@ -402,19 +403,19 @@ case6:	system("cls");
 		Menuup3;
 		cout << "Введите значение точки x=";
 		cin >> x;
-		a.Setpoint(x);
+		a.SetPoint(x);
 		system("cls");
 		Menuup3;
-		Answer = a.Getans();
+		Answer = a.GetAns();
 		cout << "Значение по формуле Тейлора:";
 		a.GetFunction();
 		cout << "=" << Answer;
 		cout << "\n\n";
 		switch (a.GetFunctionint())
 		{
-		case 1: {cout << "Эталонное значение: sin(" << x << ")=" << sin(x); k = sin(x); break; };
-		case 2: {cout << "Эталонное значение: cos(" << x << ")=" << cos(x); k = cos(x); break; };
-		case 3: {cout << "Эталонное значение: exp(" << x << ")=" << exp(x); k = exp(x); break; };
+			case 1: {cout << "Эталонное значение: sin(" << x << ")=" << sin(x); k = sin(x); break; };
+			case 2: {cout << "Эталонное значение: cos(" << x << ")=" << cos(x); k = cos(x); break; };
+			case 3: {cout << "Эталонное значение: exp(" << x << ")=" << exp(x); k = exp(x); break; };
 		};
 		cout << "\n\nотклонение от эталона:" << abs(k - Answer);
 		cout<<"\n\n1.задать новый x\n\n Выйти в меню" << endl;

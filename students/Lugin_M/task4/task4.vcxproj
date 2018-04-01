@@ -111,6 +111,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Kontakt.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Kontakt.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Kontakt.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
