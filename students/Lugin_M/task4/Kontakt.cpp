@@ -5,8 +5,8 @@
 #include<iomanip>
 #include<fstream>
 #define Max 100
-#define Menuup cout<<"Контактов:"<<GetCount()<<"/"<<Max<<endl<<endl;
-#define RUcout   SetConsoleCP(1251);cout
+#define Menuup cout<<"Контактов:"<<a.GetCount()<<"/"<<Max<<endl<<endl;
+//#define RUcout   SetConsoleCP(1251);cout
 #define Ncout    SetConsoleCP(866);cout
 #define RUcin    SetConsoleCP(1251);cin
 
@@ -15,12 +15,13 @@ using namespace std;
 class Contact
 {
 private:
-	/*static*/ int count;
+	/*static*/ int count=0;
 	string Surname[Max];
 	string Name[Max];
 	string SecondName[Max];
 	string PhoneNumber[Max];
 	string BD[Max];//день рождения
+	bool FAV[Max];
 	string ALFAVIT = RUString();
 	string FAIL = "Contacts.txt";
 public:
@@ -53,6 +54,10 @@ public:
 	void SetBD(string BD, int i)
 	{
 		this->BD[i] = BD;
+	};
+	void SetFAV(bool FAV, int i)
+	{
+		this->FAV[i] = FAV;
 	};
 	//	SetConsoleCP(1251); для ввода русских
 	//  SetConsoleCP(866); стандартная кодировка
@@ -95,6 +100,23 @@ public:
 
 		SetConsoleCP(866);
 		Sort();
+	};
+
+	void DeleteContact(int i)
+	{
+		Surname[i] = "!!!";
+		Sort();
+		count--;
+	};
+
+	void FAVplus(int i)
+	{
+		FAV[i] = 1;
+	};
+
+	void FAVminus(int i)
+	{
+		FAV[i] = 0;
 	};
 
 	void SetContact(int i)
@@ -190,6 +212,7 @@ public:
 		}
 		b[13] = char(168);
 		b[14] = char(184);
+		b = b + '!';
 		return b;
 	}
 
@@ -236,6 +259,12 @@ Zam:	i = 0;
 						BD[i] = BD[j];
 						BD[j] = buf;
 
+						bool buF;
+
+						buF = FAV[i];
+						FAV[i] = FAV[j];
+						FAV[j] = buF;
+
 						buf = Sort[i];
 						Sort[i] = Sort[j];
 						Sort[j] = buf;
@@ -246,7 +275,7 @@ Zam:	i = 0;
 					}
 					else if (k == l)
 					{
-						for (int q = 1; q < max(sizeof(Sort[i]), sizeof(Sort[j])) - 1; q++)
+						for (int q = 1; q < max(Sort[i].size(), Sort[j].size()); q++)
 						{
 							int m = 0;
 							while (!(ALFAVIT[m] == Sort[i][q]))
@@ -276,6 +305,12 @@ Zam:	i = 0;
 								buf = BD[i];
 								BD[i] = BD[j];
 								BD[j] = buf;
+
+								bool buF;
+
+								buF = FAV[i];
+								FAV[i] = FAV[j];
+								FAV[j] = buF;
 
 								buf = Sort[i];
 								Sort[i] = Sort[j];
@@ -335,22 +370,49 @@ Zam:	i = 0;
 		};
 	};
 
-	void ShowContact()
+	void SearchPhone(string a)
+	{
+		for (int i = 0; i < count; i++)
+			if (a == GetPhoneNumber(i))
+			{
+				Ncout << left << setw(3);
+				if (GetFAV(i) == 1)cout << char(42);
+		         cout << setw(4) << i + 1
+					  << setw(15 + 3) << GetSurname(i)
+					  << setw(10 + 3) << GetName(i)
+				  	  << setw(15 + 3) << GetSecondName(i)
+					  << setw(14 + 5) << GetPhoneNumber(i)
+					  << setw(13 + 5) << GetBD(i)
+					  << endl;;
+			}
+	};
+
+	void ShowContacts()
 	{
 		UpOut();
 		for (int i = 0; i < count; i++)
-		{
-			//SetConsoleCP(1251);
-			Ncout << left << setw(3) << char(42)
-				<< setw(4) << i + 1
-				<< setw(15 + 3) << GetSurname(i)
-				<< setw(10 + 3) << GetName(i)
-				<< setw(15 + 3) << GetSecondName(i)
-				<< setw(14 + 5) << GetPhoneNumber(i)
-				<< setw(13 + 5) << GetBD(i)
-				<< endl;
-			SetConsoleCP(866);
-		};
+			ShowContact(i);
+	};
+
+	void ShowContact(int i)
+	{
+		Ncout << left << setw(3);
+		if (GetFAV(i) == 1)cout << char(42);
+		else cout << " ";
+		cout << setw(4) << i + 1
+			<< setw(15 + 3) << GetSurname(i)
+			<< setw(10 + 3) << GetName(i)
+			<< setw(15 + 3) << GetSecondName(i)
+			<< setw(14 + 5) << GetPhoneNumber(i)
+			<< setw(13 + 5) << GetBD(i)
+			<< endl;;
+	};
+
+	void ShowFAV()
+	{
+		for (int i = 0; i < count; i++)
+			if (GetFAV(i) == 1) ShowContact(i);
+			
 	};
 
 	int GetCount()
@@ -371,7 +433,9 @@ Zam:	i = 0;
 				fs >> count;
 				for (int z = 0; !fs.eof(); z++)
 				{
-
+					fs >> Surname[z];
+					if (Surname[z] == "+")SetFAV(1,z);
+					else SetFAV(0, z);
 					fs >> Surname[z];
 					fs >> Name[z];
 					fs >> SecondName[z];
@@ -398,6 +462,8 @@ Zam:	i = 0;
 			fs << count << endl;
 			for (int z = 0; z < count; z++)
 			{
+				if (GetFAV(z) == 1) fs << "+" << " ";
+				else fs << "_" << " ";
 				fs << GetSurname(z) << " ";
 				fs << GetName(z) << " ";
 				fs << GetSecondName(z) << " ";
@@ -431,6 +497,10 @@ Zam:	i = 0;
 	{
 		return BD[i];
 	};
+	bool GetFAV( int i)
+	{
+		return FAV[i];
+	};
 
 };
 
@@ -440,17 +510,69 @@ int main()
 {
 	setlocale(LC_ALL, "ru");
 	Contact a;
+	char menu= 'a';
 
-	a.FailOpen();
-	a.Sort();
-	a.SearchChar('Л');
-//	a.SearchFIO("Лугин");
-//	a.SetConact(2);
-	a.ShowContact();
-//	a.FailSave();
-//	cout<<a.RUString();
+	while (1)
+	{
+		system("cls");
+		Menuup;
+		a.ShowContacts();
+		cout << endl;
+
+		if (a.GetCount() == 0)
+		{
+			while ( menu != '1' && menu != '2')
+			{
+				cout << "1.Открыть файл" << endl
+					<< "2.Добавить контакт" << endl
+					<< endl
+					<< "0.Выйти из программы" << endl;
+				cin >>  menu;
+				switch (menu)
+				{
+				case '1': {a.FailOpen(); a.Sort(); break; }
+				case '2': {a.AddContact(); break;}
+				case '0': exit(0);
+				}
+			};
+		}
+		else
+		{
+			cout << endl;
+			cout << "1.Добавить контакт" << endl
+				 << "2.Найти контакт" << endl
+				 << "3.Изменить контакт" << endl
+				 << "4.Сохранить контакты" << endl
+				 << endl
+				 << "0.Выйти из программы" << endl;
+			cout << endl;
+			cin >> menu;
+
+			switch (menu)
+			{
+			case '1':{
+						system("cls");
+						a.AddContact();
+						break;
+					 }
+			case '2':{
+						cout << "1.Найти по ФИО" << endl
+							<< "2.Найти по телефону" << endl
+							<< "3.Найти по первой букве" << endl
+							<< "4.Сохранить контакты" << endl
+							<< endl
+							<< "0.Выйти из программы" << endl;
+					 }
+			case '3':{}
+			case '4':{}
+			case '0':{}
+			}
+
+		};
+
+	}
 
 	
-	system("pause");
+
 	return 0;
 }
