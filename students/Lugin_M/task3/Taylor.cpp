@@ -3,7 +3,7 @@
 #include<locale.h>
 #define Menuup1 cout << "Текущая функция:";a.GetFunction();cout << "      ";cout << "Количество Элементов ряда:" << a.GetNumber() << endl;cout << endl;
 #define Menuup2 cout << "Текущая функция:";a.GetFunction();cout  << endl << endl;
-#define Menuup3 cout << "Текущая функция:";a.GetFunction();cout << "      ";cout << "Количество Элементов ряда:" << a.GetNumber() <<"      x="<< a.Getpoint()<< endl << endl;
+#define Menuup3 cout << "Текущая функция:";a.GetFunction();cout << "      ";cout << "Количество Элементов ряда:" << a.GetNumber() <<"      x="<< a.GetPoint()<< endl << endl;
 
 
 using namespace std;

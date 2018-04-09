@@ -1,0 +1,209 @@
+#pragma once
+#include<iostream> 
+#include<math.h> 
+#include<string> 
+#include<locale> 
+#include<iomanip>
+#include<fstream>
+#define NumberofMassive 100;
+
+using namespace std;
+
+class Kontakt
+{
+private:
+	static int count;
+	wstring Surname[100];
+	wstring Name[100];
+	wstring SecondName[100];
+	wstring PhoneNumber[100];
+	wstring BD[100];//день рождения 
+			  //jdi 
+public:
+	Kontakt()
+	{
+
+	};
+	~Kontakt()
+	{
+
+	};
+	void SetSurname(wstring Surname, int i)
+	{
+		this->Surname[i] = Surname;
+	};
+	void SetName(wstring Name, int i)
+	{
+		this->Name[i] = Name;
+	};
+	void SetSecondName(wstring SecondName, int i)
+	{
+		this->SecondName[i] = SecondName;
+	};
+	void SetPhoneNumber(wstring PhoneNumber, int i)
+	{
+		this->PhoneNumber[i] = PhoneNumber;
+	};
+	void SetBD(wstring BD, int i)
+	{
+		this->BD[i] = BD;
+	};
+
+	void AddContact()
+	{
+		count++;//Количество Контактов
+
+		wstring Ent;
+
+		system("cls");
+
+		wcout << left;
+		wcout << setw(10)<<L"Фамилия:";
+		wcin >> Ent;
+		SetSurname(Ent,count-1);
+
+		wcout << setw(10) << L"Имя:";
+		wcin >> Ent;
+		SetName(Ent, count-1);
+
+		wcout << setw(10) << L"Отчество:";
+		wcin >> Ent;
+		SetSecondName(Ent, count-1);
+
+		//ФИО является обязательгой информацией
+
+		wcout << setw(11) << L"Номер тел.:";
+		wcin >> Ent;
+		SetPhoneNumber(Ent, count-1);
+
+		wcout << setw(11) << L"Дата рож.:";
+		wcin >> Ent;
+		SetBD(Ent, count-1);
+		
+
+	};
+
+	void ChangeContact()
+	{
+
+	};
+
+	void Sorting()
+	{
+
+	};
+
+
+	void UpOut()
+		{
+			system("cls");
+	wcout << left << setw(3) << L"Из."
+		<< setw(4) << L"№"
+		<< setw(15 + 3) << L"Фамилия"
+		<< setw(10 + 3) << L"Имя"
+		<< setw(15 + 3) << L"Отчество"
+		<< setw(14 + 5) << L"Номер телефона"
+		<< setw(13 + 5) << L"дата рождения"
+		<< endl;
+		};
+	//шапка вывода
+	void ShowConact()
+	{
+		UpOut();
+		for (int i = 0; i < count; i++)
+		{
+			wcout << left << setw(3) << char(42)
+				 << setw(4) << i + 1
+				 << setw(15 + 3) << GetSurname(i)
+				 << setw(10 + 3) << GetName(i)
+				 << setw(15 + 3) << GetSecondName(i)
+				 << setw(14 + 5) << GetPhoneNumber(i)
+				 << setw(13 + 5) << GetBD(i)
+			 	 << endl;
+		};
+
+	};
+
+	void SaveKontakts()
+	{
+		wofstream fout;
+		fout.open("Kontakts.txt",ofstream::app);
+		if (!fout.is_open())
+			cout << "Файл не открылся" << endl;
+		else
+		for(int i=0;i<count;i++)
+		fout << Surname[i] <<" "<< Name[i] <<" " << SecondName[i] << " " << PhoneNumber[i] << " " << BD[i] << endl;
+		fout.close();
+
+	};
+
+
+	int GetCount()
+	{
+		return count;
+	};
+	wstring GetSurname(int i)
+	{
+		return Surname[i];
+	};
+	wstring GetName(int i)
+	{
+		return Name[i];
+	};
+	wstring GetSecondName(int i)
+	{
+		return SecondName[i];
+	};
+	wstring GetPhoneNumber(int i)
+	{
+		return PhoneNumber[i];
+	};
+	wstring GetBD(int i)
+	{
+		return BD[i];
+	};
+};
+
+#include"Kontakt.h"
+
+int Kontakt::count = 0;
+
+int main()
+{
+	int menu;
+	//setlocale(LC_ALL, "ru");
+	Kontakt a;
+	wstring aha;
+
+	//for(int i=0;i<3;i++)
+	//a.AddContact();
+	//a.SaveKontakts();
+	//system("pause");
+	//a.ShowConact();
+	//абвгдеёжзийклмнопрстуфхцчшщъыьэюя
+	//АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ
+	
+	wcin << aha;
+
+
+
+	void SetSurname(wstring Surname, int i);
+	void SetName(wstring Name, int i);
+	void SetSecondName(wstring SecondName, int i);
+	void SetPhoneNumber(wstring PhoneNumber, int i);
+	void SetBD(wstring BD, int i);
+
+	int GetCount();
+
+	wstring GetSurname(int i);
+	wstring GetName(int i);
+	wstring GetSecondName(int i);
+	wstring GetPhoneNumber(int i);
+	wstring GetBD(int i);
+
+
+	4
+Лугин Михаил Дмитриевич 228322 02071999
+ЛОЛ КеК Чебурек 254564 54333433
+ваук тима ликуев 4254 -
+Лалка Лалкович Питухов - 02021999
