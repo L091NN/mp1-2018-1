@@ -21,7 +21,7 @@ private:
 	string SecondName[Max];
 	string PhoneNumber[Max];
 	string BD[Max];//день рождения
-	bool FAV[Max];
+	bool FAV[Max];//избранный
 	string ALFAVIT = RUString();
 	string FAIL = "Contacts.txt";
 public:
