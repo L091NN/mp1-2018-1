@@ -9,7 +9,7 @@
 //#define RUcout   SetConsoleCP(1251);cout
 #define Ncout    SetConsoleCP(866);cout
 #define RUcin    SetConsoleCP(1251);cin
-
+#define KODNORM    SetConsoleCP(866)
 using namespace std;
 
 class Contact
@@ -23,7 +23,7 @@ private:
 	string BD[Max];//день рождения
 	bool FAV[Max];//избранный
 	string ALFAVIT = RUString();
-	string FAIL = "Contacts.txt";
+	string FILE = "Contacts.txt";
 public:
 	
 	Contact()
@@ -61,44 +61,22 @@ public:
 	};
 	//	SetConsoleCP(1251); для ввода русских
 	//  SetConsoleCP(866); стандартная кодировка
-	void AddContact()
+	void AddContact(string Surname,string Name,string SecondName,string PhoneNumber,string BD)
 	{
 		count++;//Количество Контактов
 
-		string Ent;
+		SetSurname(Surname, count - 1);
 
-		//system("cls");
+		SetName(Name, count - 1);
 
-		cout << "Обратите вниманий!ФИО-обязательное для заполнения поле." << endl
-			<< "!Если пункт не требует заполнения введите - " << endl
-			<< endl;
+		SetSecondName(SecondName, count - 1);
 
-		cout << left;
-		Ncout << setw(10) << "Фамилия:";
-		RUcin >> Ent;
-		SetSurname(Ent, count - 1);
-
-		Ncout << setw(10) << "Имя:";
-		RUcin >> Ent;
-		SetName(Ent, count - 1);
-
-		Ncout << setw(10) << "Отчество:";
-		RUcin >> Ent;
-		SetSecondName(Ent, count - 1);
-
-		//ФИО является обязательгой информацией
-
-		Ncout << setw(11) << "Номер тел.:";
-		RUcin >> Ent;
-		if (Ent != "-")SetPhoneNumber(Ent, count - 1);
+		if (PhoneNumber != "-")SetPhoneNumber(PhoneNumber, count - 1);
 		else SetPhoneNumber("", count - 1);
 
-		Ncout << setw(11) << "Дата рож.:";
-		RUcin >> Ent;
-		if (Ent != "-")SetBD(Ent, count - 1);
+		if (BD != "-")SetBD(BD, count - 1);
 		else SetBD("", count - 1);
 
-		SetConsoleCP(866);
 		Sort();
 	};
 
@@ -119,41 +97,9 @@ public:
 		FAV[i] = 0;
 	};
 
-	void SetContact(int i)
+	void SetContact(int i ,string a[5])
 	{
-		string a[5];
-		int Number = 0;
-		int y = 2;
 
-		cout << "!Если пункт не требует изменения введите -" << endl << endl;
-		
-		Ncout << setw(17)<< "Старая фамилия:" << GetSurname(i)
-			  << "     " << "\tНовая фамилия:\t";
-		RUcin >> a[Number++];
-
-		Ncout << setw(17) << "Старое имя:"<< GetName(i)
-			  << "     "  << "\tНовое имя:\t";
-		RUcin >> a[Number++];
-
-		Ncout << setw(17) << "Старое Отчество:" << GetSecondName(i)
-			  << "     " << "\tНовое Отчество:\t";
-		RUcin >> a[Number++];
-
-		Ncout << setw(17) << "Старый телефон:" << GetPhoneNumber(i)
-			 << "     " << "\tНовый телефон:\t";
-		RUcin >> a[Number++];
-
-		Ncout << setw(17) << "Старая дата рож.:" << GetBD(i)
-			 << "     " << "\tНовая дата рож.:";
-		RUcin >> a[Number++];
-		SetConsoleCP(866);
-
-		while ((y != 0) && (y!=1))
-		{
-			cout << "Принять изменения?(1-ДА/0-НЕТ)" << endl;
-			cin >> y;
-		};
-		if (y == 1)
 			for (int k = 0; k < 5; k++)
 			{
 				if (a[k] != "-")
@@ -333,17 +279,9 @@ Zam:	i = 0;
 	{
 		for (int i = 0; i < count; i++)
 		{
-			if (a == GetSurname(i) || a == GetName(i) || a == GetSecondName(i) || a==GetPhoneNumber(i) || a==GetBD(i))
+			if (a == GetSurname(i) || a == GetName(i) || a == GetSurname(i)+ GetName(i) || a==  GetName(i)+ GetSurname(i))
 			{
-				Ncout << left << setw(3) << char(42)
-					<< setw(4) << i + 1
-					<< setw(15 + 3) << GetSurname(i)
-					<< setw(10 + 3) << GetName(i)
-					<< setw(15 + 3) << GetSecondName(i)
-					<< setw(14 + 5) << GetPhoneNumber(i)
-					<< setw(13 + 5) << GetBD(i)
-					<< endl;
-				continue;
+				ShowContact(i);
 			};
 		};
 
@@ -353,19 +291,22 @@ Zam:	i = 0;
 
 	void SearchChar(char a)
 	{
+		char a2=' ';
+		int k=0;
+		while (a != a2)
+		{
+			a2 = Char(k);
+			k++;
+		}
+
+		if (k > 32)a2 = Char(k - 33);
+		else a2 = Char(k + 33);
+
 		for (int i = 0; i < count; i++)
 		{
-			if (a == GetSurname(i)[0] || a == GetName(i)[0] || a == GetSecondName(i)[0])
+			if (a == GetSurname(i)[0] || a == GetName(i)[0] || a == GetSecondName(i)[0] || a2 == GetSurname(i)[0] || a2 == GetName(i)[0] || a2 == GetSecondName(i)[0])
 			{
-				Ncout << left << setw(3) << char(42)
-					<< setw(4) << i + 1
-					<< setw(15 + 3) << GetSurname(i)
-					<< setw(10 + 3) << GetName(i)
-					<< setw(15 + 3) << GetSecondName(i)
-					<< setw(14 + 5) << GetPhoneNumber(i)
-					<< setw(13 + 5) << GetBD(i)
-					<< endl;
-				continue;
+				ShowContact(i);
 			};
 		};
 	};
@@ -375,15 +316,7 @@ Zam:	i = 0;
 		for (int i = 0; i < count; i++)
 			if (a == GetPhoneNumber(i))
 			{
-				Ncout << left << setw(3);
-				if (GetFAV(i) == 1)cout << char(42);
-		         cout << setw(4) << i + 1
-					  << setw(15 + 3) << GetSurname(i)
-					  << setw(10 + 3) << GetName(i)
-				  	  << setw(15 + 3) << GetSecondName(i)
-					  << setw(14 + 5) << GetPhoneNumber(i)
-					  << setw(13 + 5) << GetBD(i)
-					  << endl;;
+				ShowContact(i);
 			}
 	};
 
@@ -420,10 +353,10 @@ Zam:	i = 0;
 		return count;
 	};
 
-	void FailOpen()
+	void FILEOpen()
 	{
 		fstream fs;
-		fs.open(FAIL, fstream::in);
+		fs.open(FILE, fstream::in);
 		if (!fs.is_open())
 		{
 			Ncout << "НЕ удалось считать файл";
@@ -447,10 +380,10 @@ Zam:	i = 0;
 		}
    };
 
-	void FailSave()
+	void FILESave()
 	{
 		fstream fs;
-		fs.open(FAIL, fstream::out);
+		fs.open(FILE, fstream::out);
 //		fs.close();
 //		fs.open(FAIL, fstream::app);
 		if (!fs.is_open())
@@ -530,8 +463,42 @@ int main()
 				cin >>  menu;
 				switch (menu)
 				{
-				case '1': {a.FailOpen(); a.Sort(); break; }
-				case '2': {a.AddContact(); break;}
+				case '1': {a.FILEOpen(); a.Sort(); break; }
+				case '2': 
+				{
+					string Ent[5];
+					int c=0;
+
+					cout << "Обратите вниманий!ФИО-обязательное для заполнения поле." << endl
+						<< "!Если пункт не требует заполнения введите - " << endl
+						<< endl;
+
+					cout << left;
+					Ncout << setw(10) << "Фамилия:";
+					RUcin >> Ent[c];
+					c++;
+					
+
+					Ncout << setw(10) << "Имя:";
+					RUcin >> Ent[c];
+					c++;
+
+					Ncout << setw(10) << "Отчество:";
+					RUcin >> Ent[c];
+					c++;
+
+					//ФИО является обязательной информацией
+
+					Ncout << setw(11) << "Номер тел.:";
+					RUcin >> Ent[c];
+					c++;
+
+					Ncout << setw(11) << "Дата рож.:";
+					RUcin >> Ent[c];
+					
+					a.AddContact(Ent[0], Ent[1], Ent[2], Ent[3], Ent[4]);
+					break;
+				}
 				case '0': exit(0);
 				}
 			};
@@ -543,6 +510,7 @@ int main()
 				 << "2.Найти контакт" << endl
 				 << "3.Изменить контакт" << endl
 				 << "4.Сохранить контакты" << endl
+				 << "5.Показать избранных"<<endl
 				 << endl
 				 << "0.Выйти из программы" << endl;
 			cout << endl;
@@ -552,20 +520,218 @@ int main()
 			{
 			case '1':{
 						system("cls");
-						a.AddContact();
+						string Ent[5];
+						int c = 0;
+
+						cout << "Обратите вниманий!ФИО-обязательное для заполнения поле." << endl
+							<< "!Если пункт не требует заполнения введите - " << endl
+							<< endl;
+
+						cout << left;
+						Ncout << setw(10) << "Фамилия:";
+						RUcin >> Ent[c];
+						c++;
+
+
+						Ncout << setw(10) << "Имя:";
+						RUcin >> Ent[c];
+						c++;
+
+						Ncout << setw(10) << "Отчество:";
+						RUcin >> Ent[c];
+						c++;
+
+						//ФИО является обязательной информацией
+
+						Ncout << setw(11) << "Номер тел.:";
+						RUcin >> Ent[c];
+						c++;
+
+						Ncout << setw(11) << "Дата рож.:";
+						RUcin >> Ent[c];
+
+						a.AddContact(Ent[0], Ent[1], Ent[2], Ent[3], Ent[4]);
 						break;
 					 }
 			case '2':{
+						system("cls");
 						cout << "1.Найти по ФИО" << endl
 							<< "2.Найти по телефону" << endl
 							<< "3.Найти по первой букве" << endl
-							<< "4.Сохранить контакты" << endl
 							<< endl
 							<< "0.Выйти из программы" << endl;
+						cin >> menu;
+						switch (menu)
+						{
+						case '1'://найти по фио
+						{
+							system("cls");
+							cout << "Введите Имя или Фамилию:"<<endl;
+							string Search;
+							RUcin >> Search;
+							KODNORM;
+
+							system("cls");
+
+							a.UpOut();
+
+							a.Search(Search);
+							cout << endl<<endl;
+							system("pause");
+							break;
+
+						}
+						case '2':
+						{
+							system("cls");
+							cout << "Введите номер телефона:";
+							string PN;//PhoneNumber
+							RUcin >> PN;
+							KODNORM;
+							cout << endl << endl;
+							a.UpOut();
+							a.SearchPhone(PN);
+							
+
+							
+							cout << endl << endl;
+
+
+							system("pause");
+							break;
+						};
+						case '3':
+						{
+							system("cls");
+							cout << "Введите первую букву ФИО:";
+							char BUKVA;
+							RUcin >> BUKVA;
+							KODNORM;
+							cout << endl << endl;
+							a.UpOut();
+							a.SearchChar(BUKVA);
+							cout << endl << endl;
+
+							system("pause");
+							break;
+						};
+						case '0':exit(0);
+						};
+						break;
 					 }
-			case '3':{}
-			case '4':{}
-			case '0':{}
+			case '3':
+			{
+				int i;
+
+				system("cls");
+
+				a.ShowContacts();
+				cout << endl << endl;
+
+				cout << "Введите номер контакта:" << endl;
+
+				cin >> i;
+				i--;
+				system("cls");
+
+				a.UpOut();
+				a.ShowContact(i);
+
+				cout << endl
+					 << endl
+					 << "1.Переименовать"<<endl;
+				if (a.GetFAV(i) == 1)cout << "2.Удалить из избранных";
+				else cout << "2.Добавить в избранное";
+				cout << endl
+					 << "3.Удалить контакт"<<endl
+					 <<endl
+					 << "0.Выйти из программы";
+
+				cin >> menu;
+
+				switch (menu)
+				{
+				case '1':
+				{
+					system("cls");
+
+					string b[5];
+					int Number = 0;
+					int y = 2;
+
+					cout << "!Если пункт не требует изменения введите -" << endl << endl;
+
+					Ncout << setw(17) << "Старая фамилия:" << a.GetSurname(i)
+						<< "     " << "\tНовая фамилия:\t";
+					RUcin >> b[Number++];
+
+					Ncout << setw(17) << "Старое имя:" << a.GetName(i)
+						<< "     " << "\tНовое имя:\t";
+					RUcin >> b[Number++];
+
+					Ncout << setw(17) << "Старое Отчество:" << a.GetSecondName(i)
+						<< "     " << "\tНовое Отчество:\t";
+					RUcin >> b[Number++];
+
+					Ncout << setw(17) << "Старый телефон:" << a.GetPhoneNumber(i)
+						<< "     " << "\tНовый телефон:\t";
+					RUcin >> b[Number++];
+
+					Ncout << setw(17) << "Старая дата рож.:" << a.GetBD(i)
+						<< "     " << "\tНовая дата рож.:";
+					RUcin >> b[Number++];
+					SetConsoleCP(866);
+
+					while ((y != 0) && (y != 1))
+					{
+						cout << "Принять изменения?(1-ДА/0-НЕТ)" << endl;
+						cin >> y;
+					};
+					if (y == 1)
+						a.SetContact(i, b);
+					break;
+				};
+				case '2':
+				{
+					a.SetFAV(((a.GetFAV(i) + 1) % 2), i);
+					break;
+				};
+				case '3':
+				{
+					char y='2';
+					while ((y != '0') && (y != '1'))
+					{
+						cout << endl << "Удалить контакт №" << i << "?(1-ДА/0-НЕТ)" << endl;
+						cin >> y;
+					};
+					if (y == '1')
+					a.DeleteContact(i);
+					break;
+				};
+				case '0':exit(0);
+				};
+
+				break;
+			};
+			case '4':
+			{
+				a.FILESave();
+				break;
+			};
+			case '5':
+			{
+				system("cls");
+				a.UpOut();
+				for (int i = 0; i < a.GetCount(); i++)
+				{
+					if (a.GetFAV(i) == 1)a.ShowContact(i);
+				};
+				cout << endl << endl;
+
+				system("pause");
+				break;
+			};
+			case '0':exit(0);
 			}
 
 		};
