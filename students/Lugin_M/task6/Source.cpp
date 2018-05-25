@@ -159,7 +159,7 @@ Ula:cout << "HI!" << endl << endl;
 		system("cls");
 		while (!GameOver)
 		{
-			cout << "Enter Number:" << a.GetNumber() << endl;
+			cout << "Enter Number:" << "  *correct: " << a.GetNumber() << '*' << endl;
 			long int Num = -1, Hum, Ran;
 			cin >> Num;
 			Hum = Num;
@@ -186,11 +186,11 @@ Ula:cout << "HI!" << endl << endl;
 						cout << "Cow:" << a.CheckCow(Num) << "   " << "Bull:" << a.CheckBull(Num) << endl;
 
 				}
-				if (a.CheckBull(Num) == a.GetNumberS())
-				{
-					a.YouWin();
-					GameOver = 1;
-				}
+			}
+			if (a.CheckBull(Num) == a.GetNumberS())
+			{
+				a.YouWin();
+				GameOver = 1;
 			}
 		}
 	}
