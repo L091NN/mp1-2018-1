@@ -140,7 +140,6 @@ int main()
 {
 	char menu;
 	Game a;
-	long int Numba = 12345;
 	bool GameOver = 0;
 	system("color 0A");
 Ula:cout << "HI!" << endl << endl;
@@ -160,34 +159,38 @@ Ula:cout << "HI!" << endl << endl;
 		system("cls");
 		while (!GameOver)
 		{
-			cout << "Enter Number:" << endl;
-			long int Num = -1,Hum,Ran;
+			cout << "Enter Number:" << a.GetNumber() << endl;
+			long int Num = -1, Hum, Ran;
 			cin >> Num;
 			Hum = Num;
 			Ran = a.GetNumber();
-			for (int k = 0; Hum != 0; k++)
-			{
-				Hum /= 10;
-				Ran /= 10;
-			}
-			Hum = Num;
-			for (int k = 0; k < a.GetNumberS(); k++)
-			{
-				Hum /= 10;
-			}
-
-			if (Ran > 0 || Hum) cout << "You didn't Enter " << a.GetNumberS() << " numeral!" << endl;
+			if (i == 1) cout << "Cow:" << a.CheckCow(Num) << "   " << "Bull:" << a.CheckBull(Num) << endl;
 			else
 			{
-				if (!a.CheckUnic(Num))cout << "You  Entered repetitive numeral!" << endl;
-				else
-				cout << "Cow:" << a.CheckCow(Num) << "   " << "Bull:" << a.CheckBull(Num) << endl;
+				for (int k = 0; Hum != 0; k++)
+				{
+					Hum /= 10;
+					Ran /= 10;
+				}
+				Hum = Num;
+				for (int k = 0; k < a.GetNumberS(); k++)
+				{
+					Hum /= 10;
+				}
 
-			}
-			if (a.CheckBull(Num) == a.GetNumberS())
-			{
-				a.YouWin();
-				GameOver = 1;
+				if (Ran > 0 || Hum) cout << "You didn't Enter " << a.GetNumberS() << " numeral!" << endl;
+				else
+				{
+					if (!a.CheckUnic(Num))cout << "You  Entered repetitive numeral!" << endl;
+					else
+						cout << "Cow:" << a.CheckCow(Num) << "   " << "Bull:" << a.CheckBull(Num) << endl;
+
+				}
+				if (a.CheckBull(Num) == a.GetNumberS())
+				{
+					a.YouWin();
+					GameOver = 1;
+				}
 			}
 		}
 	}
