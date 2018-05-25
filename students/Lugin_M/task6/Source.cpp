@@ -80,7 +80,7 @@ public:
 				int a1 = pow(10, j - 1);
 				if (b % b10 / b1 == a % a10 / a1) Cow++;
 			}
-		return Cow;
+		return Cow - CheckBull(a);
 	}
 	void YouWin()
 	{
