@@ -157,9 +157,12 @@ Ula:cout << "HI!" << endl << endl;
 		a.SetNumberS(i);
 		a.AddNumber();
 		system("cls");
+		cout << "  *correct: " << a.GetNumber() << '*' << endl;
+		system("pause");
+		system("cls");
 		while (!GameOver)
 		{
-			cout << "Enter Number:" << "  *correct: " << a.GetNumber() << '*' << endl;
+			cout << "Enter Number:" << endl;
 			long int Num = -1, Hum, Ran;
 			cin >> Num;
 			Hum = Num;
